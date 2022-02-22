@@ -42,7 +42,7 @@ class Instasent
      */
     public function __construct($token)
     {
-        $this->setConfig($token);
+        $this->setToken($token);
     }
 
     /**
@@ -97,20 +97,13 @@ class Instasent
      * @throws \BadMethodCallException
      */
     protected function getApiInstance($method, array $parameters = null)
-    {
+    {        
         $class = "\\Instasent\\" . ucwords($method);
 
         if (class_exists($class) && !(new ReflectionClass($class))->isAbstract()) {
             $r = new ReflectionClass($class);
-            if (!$parameters) {
-                $params = $r->getConstructor()->getParameters();
-                if (isset($params[0]) && $params[0]->getClass()) {
-                    $argument = new ReflectionClass($params[0]->getClass()->name);
-                    if ($argument->implementsInterface(IAuthentication::class)) {
-                        $parameters = [$this->config];
-                    }
-                }
-            }
+            array_unshift($parameters, $this->token);
+
             return $r->newInstanceArgs($parameters);
         }
         throw new \BadMethodCallException("Undefined method [{$method}] called.");

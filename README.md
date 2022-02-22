@@ -60,7 +60,7 @@ $ php artisan vendor:publish --provider='HomedoctorEs\Laravel\Instasent\Instasen
 4. Set the api_token in the config/instasent.php file or use the predefined env 
 variables.
 
-config/services.php
+config/instasent.php
 ```php
 return [
     'api_token' => '', // your account api token

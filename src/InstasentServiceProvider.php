@@ -54,7 +54,7 @@ class InstasentServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('instasent', function ($app) {
-            $config = $app['config']->get('services.instasent');
+            $config = $app['config']->get('instasent');
             return new Instasent($config['api_token']);
         });
         $this->app->alias('instasent', Instasent::class);
